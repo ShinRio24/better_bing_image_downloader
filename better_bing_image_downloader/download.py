@@ -37,7 +37,7 @@ def downloader(query:str,
     adult = 'off' if adult_filter_off else 'on'
 
     # Create output directory path
-    image_dir = Path(output_dir) / query
+    image_dir = Path(output_dir)
     
     # Handle directory replacement if requested
     if force_replace and image_dir.exists():
@@ -78,15 +78,8 @@ def downloader(query:str,
         bing.download_callback = update_progress_bar  # type: ignore
         bing.run()
 
-    # After download completes, offer to show sources
-    if input('\nDo you wish to see the image sources? (Y/N): ').lower() == 'y':
-        if bing.seen:
-            for i, src in enumerate(bing.seen, 1):
-                print(f'{i}. {src}')
-        else:
-            print("No image sources were found.")
-    else:
-        print('Happy Scraping!')
+        #for i, src in enumerate(bing.seen, 1):
+        #    print(f'{i}. {src}')
     
     return bing.download_count
 
@@ -95,7 +88,7 @@ if __name__ == '__main__':
     # Set up argument parser
     parser = argparse.ArgumentParser(description='Download images using Bing.')
     parser.add_argument('query', type=str, help='The search query.')
-    parser.add_argument('-l','--limit', type=int, default=100, help='The maximum number of images to download.')
+    parser.add_argument('-l','--limit', type=int, default=5, help='The maximum number of images to download.')
     parser.add_argument('-d','--output_dir', type=str, default='dataset', help='The directory to save the images in.')
     parser.add_argument('-a','--adult_filter_off', action='store_true', help='Whether to turn off the adult filter.')
     parser.add_argument('-F','--force_replace', action='store_true', help='Whether to replace existing files.')
